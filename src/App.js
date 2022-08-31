@@ -2,6 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { Route, Routes } from "react-router-dom";
 import { Navbar } from "./components";
 import { useStateValue } from "./contexts/StateProvider";
+import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
 
   return (
     <AnimatePresence>
-      <>
+      <div className="overflow-x-hidden">
         <Navbar />
         <Routes>
           <Route
@@ -19,9 +20,9 @@ function App() {
             }
           />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<h1 className="text-4xl">Login</h1>} />
+          <Route path="/login" element={<Login />} />
         </Routes>
-      </>
+      </div>
     </AnimatePresence>
   );
 }

@@ -1,17 +1,16 @@
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import { CgSpinnerTwo } from "react-icons/cg";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import SignupImage from "../assets/signup.svg";
 import Container from "../components/Container";
 import { actionType } from "../contexts/reducer";
 import { useStateValue } from "../contexts/StateProvider";
 import { auth } from "../firebase";
 
-const Signup = () => {
+const Login = () => {
   const navigate = useNavigate();
   const [{ user }, dispatch] = useStateValue();
 
@@ -25,61 +24,45 @@ const Signup = () => {
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required(),
-    username: Yup.string().min(4).max(20).required(),
-    password: Yup.string()
-      .min(8)
-      .required()
-      .matches(
-        "^(?=.*?[a-z])(?=.*?[0-9]).{8,}$",
-        "Password must contain at least 1 lowercase letter and 1 number"
-      ),
-    passwordConfirm: Yup.string()
-      .oneOf([Yup.ref("password"), null], "Passwords doesn't match")
-      .required(),
+    password: Yup.string().required(),
   });
 
   const initialValues = {
     email: "",
-    username: "",
     password: "",
-    passwordConfirm: "",
   };
 
   const onSubmit = (values, { setSubmitting, resetForm }) => {
-    createUserWithEmailAndPassword(auth, values.email, values.password)
+    resetForm();
+    signInWithEmailAndPassword(auth, values.email, values.password)
       .then((userCredential) => {
-        resetForm();
-        updateProfile(userCredential.user, {
-          displayName: values.username,
-        }).then(() => {
-          dispatch({
-            type: actionType.SET_USER,
-            user: userCredential.user.providerData[0],
-          });
-          localStorage.setItem(
-            "user",
-            JSON.stringify({
-              ...userCredential.user.providerData[0],
-            })
-          );
-          setSubmitting(false);
-          navigate("/");
+        dispatch({
+          type: actionType.SET_USER,
+          user: userCredential.user.providerData[0],
         });
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            ...userCredential.user.providerData[0],
+          })
+        );
+        setSubmitting(false);
+        navigate("/");
       })
       .catch((error) => {
-        setSubmitting(false);
-        resetForm();
-        alert(error.message)
+        if (
+          error.code === "auth/user-not-found" ||
+          error.code === "auth/wrong-password"
+        ) {
+          alert("User not found.");
+        }
       });
   };
 
   return (
     <section className="">
-      <Container className="mt-8 md:mt-16 xl:mt-20">
-        <div className="flex justify-center items-center flex-wrap gap-10 h-full text-gray-800">
-          <div className="md:w-8/12 lg:w-5/12">
-            <img src={SignupImage} className="w-full" alt="Phone image" />
-          </div>
+      <Container className="">
+        <div className="flex justify-center items-center flex-wrap gap-10 h-[70vh] text-gray-800">
           <div className="md:w-8/12 lg:w-6/12">
             <Formik
               initialValues={initialValues}
@@ -99,20 +82,6 @@ const Signup = () => {
                       />
                       <ErrorMessage
                         name="email"
-                        component="div"
-                        className="auth-error-message"
-                      />
-                    </div>
-                    {/* Username */}
-                    <div>
-                      <Field
-                        name="username"
-                        type="text"
-                        className="auth-input"
-                        placeholder="Username"
-                      />
-                      <ErrorMessage
-                        name="username"
                         component="div"
                         className="auth-error-message"
                       />
@@ -144,20 +113,6 @@ const Signup = () => {
                         className="auth-error-message"
                       />
                     </div>
-                    {/* Password Confirm */}
-                    <div>
-                      <Field
-                        name="passwordConfirm"
-                        type="password"
-                        className="auth-input"
-                        placeholder="Password Confirm"
-                      />
-                      <ErrorMessage
-                        name="passwordConfirm"
-                        component="div"
-                        className="auth-error-message"
-                      />
-                    </div>
                     {/* Submit */}
                     <button
                       type="submit"
@@ -172,19 +127,16 @@ const Signup = () => {
                           className="animate-spin duration-50"
                         />
                       )}
-                      Signup
+                      Login
                     </button>
                     <div>
                       <Link
-                        to="/login"
+                        to="/signup"
                         className="text-orange-500 hover:text-orange-600 font-semibold text-lg underline"
                       >
-                        Already have an account?
+                        Don't have an account?
                       </Link>
                     </div>
-                    {/* <div className="flex items-center my-4 before:flex-1 before:border-t before:border-gray-300 before:mt-0.5 after:flex-1 after:border-t after:border-gray-300 after:mt-0.5">
-                     className="text-center font-semibold mx-4 mb-0">OR</p>
-                    v> */}
                   </div>
                 </form>
               )}
@@ -196,4 +148,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

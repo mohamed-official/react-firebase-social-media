@@ -1,26 +1,13 @@
 import { Menu, Transition } from "@headlessui/react";
-import { signOut } from "firebase/auth";
 import { Fragment } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import { actionType } from "../../contexts/reducer";
 import { useStateValue } from "../../contexts/StateProvider";
-import { auth } from "../../firebase";
 
-const AccountDropDown = () => {
+const AccountDropDown = ({ logout }) => {
   const navigate = useNavigate();
 
   const [{ user }, dispatch] = useStateValue();
-  const logout = () => {
-    signOut(auth).then(() => {
-      localStorage.removeItem("user");
-      dispatch({
-        type: actionType.SET_USER,
-        user: null,
-      });
-      navigate("/");
-    });
-  };
 
   return (
     <Transition
