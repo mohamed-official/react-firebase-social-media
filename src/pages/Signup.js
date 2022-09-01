@@ -69,12 +69,12 @@ const Signup = () => {
       .catch((error) => {
         setSubmitting(false);
         resetForm();
-        alert(error.message)
+        alert(error.message);
       });
   };
 
   return (
-    <section className="">
+    <section className="mb-4">
       <Container className="mt-8 md:mt-16 xl:mt-20">
         <div className="flex justify-center items-center flex-wrap gap-10 h-full text-gray-800">
           <div className="md:w-8/12 lg:w-5/12">

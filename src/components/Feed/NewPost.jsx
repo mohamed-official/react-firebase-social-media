@@ -87,7 +87,10 @@ const NewPost = () => {
         </div>
       )}
       <div className="bg-white rounded border border-gray-300 px-5 py-3">
-        <form onSubmit={handleSubmit} className="flex justify-between gap-6">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-wrap md:flex-nowrap md:justify-between gap-6"
+        >
           <div className="flex items-center justify-center text-white uppercase text-xl w-10 h-10 rounded-full cursor-pointer bg-green-700">
             <div>{user?.displayName.charAt(0)}</div>
           </div>
@@ -95,7 +98,7 @@ const NewPost = () => {
             type="text"
             value={post}
             onChange={(e) => setPost(e.target.value)}
-            className="bg-gray-200 rounded-2xl w-8/12 py-2 px-3 focus:ring-orange-500 focus:ring-1 outline-none"
+            className="bg-gray-200 rounded-2xl w-9/12 py-2 px-3 focus:ring-orange-500 focus:ring-1 outline-none"
             placeholder="what are you thinking about?"
           />
           <div>
@@ -110,18 +113,24 @@ const NewPost = () => {
         <div className="flex justify-between mt-4 border-t border-gray-300 pt-3">
           <div className="flex items-center gap-4 cursor-pointer transition-all duration-100 hover:bg-gray-300 p-3 rounded">
             <FcCamcorderPro size={30} className="cursor-pointer" />
-            <p className="text-gray-500 font-semibold text-md">Video</p>
+            <p className="hidden md:block text-gray-500 font-semibold text-md">
+              Video
+            </p>
           </div>
           <div className="flex items-center gap-4 cursor-pointer transition-all duration-100 hover:bg-gray-300 p-3 rounded">
             <FcImageFile size={30} className="cursor-pointer" />
-            <p className="text-gray-500 font-semibold text-md">Image</p>
+            <p className="hidden md:block text-gray-500 font-semibold text-md">
+              Image
+            </p>
           </div>
           <div className="flex items-center gap-4 cursor-pointer transition-all duration-100 hover:bg-gray-300 p-3 rounded">
             <BsEmojiSunglasses
               size={30}
               className="text-amber-500 cursor-pointer"
             />
-            <p className="text-gray-500 font-semibold text-md">Image</p>
+            <p className="hidden md:block text-gray-500 font-semibold text-md">
+              Image
+            </p>
           </div>
         </div>
       </div>
