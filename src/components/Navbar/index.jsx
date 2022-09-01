@@ -17,20 +17,6 @@ import Container from "../Container/index";
 import AccountDropDown from "./AccountDropDown";
 import MobileNav from "./MobileNav.jsx";
 
-const backgrounds = [
-  "bg-red-700",
-  "bg-orange-700",
-  "bg-amber-700	",
-  "bg-yellow-700",
-  "bg-green-700",
-  "bg-emerald-800",
-  "bg-teal-700",
-  "bg-blue-700",
-  "bg-indigo-700",
-  "bg-pink-700",
-  "bg-rose-700",
-];
-
 const Navbar = () => {
   const [{ user }, dispatch] = useStateValue(false);
   const navigate = useNavigate();
@@ -74,11 +60,7 @@ const Navbar = () => {
                 <Menu.Button>
                   <motion.div
                     whileTap={{ scale: 0.6 }}
-                    className={`flex items-center justify-center text-white uppercase text-2xl w-12 h-12 relative rounded-full cursor-pointer ${
-                      backgrounds[
-                        Math.floor(Math.random() * backgrounds.length)
-                      ]
-                    }`}
+                    className="flex items-center justify-center text-white uppercase text-2xl w-12 h-12 relative rounded-full cursor-pointer bg-green-700"
                   >
                     <div>{user?.displayName.charAt(0)}</div>
                     <div className="bg-gray-300 rounded-full absolute bottom-0 -right-1">
