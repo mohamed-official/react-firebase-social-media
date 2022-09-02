@@ -6,7 +6,7 @@ import { IoCloseSharp, IoSend } from "react-icons/io5";
 import { useStateValue } from "../../contexts/StateProvider";
 import { firestore } from "../../firebase";
 
-const NewPost = () => {
+const NewPost = ({ posts, setPosts }) => {
   const [{ user }, dispatch] = useStateValue();
   const [post, setPost] = useState("");
   const [alert, setAlert] = useState(false);
@@ -24,6 +24,15 @@ const NewPost = () => {
         createdAt: serverTimestamp(),
         id: postRef.id,
       }).then(() => {
+        setPosts([
+          ...posts,
+          {
+            content: post,
+            username: user?.displayName,
+            createdAt: serverTimestamp(),
+            id: postRef.id,
+          },
+        ]);
         setAlert(true);
         setAlertType("success");
         setMessage("Post added successfully.");
