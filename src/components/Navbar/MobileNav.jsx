@@ -1,4 +1,5 @@
 import { BiLogOut } from "react-icons/bi";
+import { IoSettingsSharp } from "react-icons/io5";
 import { MdSearch } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../../contexts/StateProvider";
@@ -23,13 +24,22 @@ const MobileNav = ({ open, setOpen, logout }) => {
             </div>
             <div className="mt-4 border-t border-gray-300">
               {user ? (
-                <button
-                  onClick={() => logout()}
-                  className="flex items-center text-red-600 w-full hover:bg-gray-100 p-2 transition-all duration-150 ease-in-out"
-                >
-                  <BiLogOut size={20} className="mr-3" />
-                  Logout
-                </button>
+                <div className="pt-2">
+                  <button
+                    onClick={() => navigate("/settings")}
+                    className="flex items-center border-b border-gray-300 text-gray-700 w-full hover:bg-gray-100 p-2 transition-all duration-150 ease-in-out"
+                  >
+                    <IoSettingsSharp size={20} className="mr-3" />
+                    Setting
+                  </button>
+                  <button
+                    onClick={() => logout()}
+                    className="flex items-center text-red-600 w-full hover:bg-gray-100 p-2 transition-all duration-150 ease-in-out"
+                  >
+                    <BiLogOut size={20} className="mr-3" />
+                    Logout
+                  </button>
+                </div>
               ) : (
                 <div className="flex flex-col gap-4 mt-4">
                   <div
